@@ -25,6 +25,9 @@ export default function Home() {
     }
 
     if (video) {
+
+      video.addEventListener("click", togglePlayPaused);
+
       // Check if dimensions are available immediately
       if (video.videoWidth && video.videoHeight) {
         handleResize();
@@ -40,6 +43,8 @@ export default function Home() {
       return () => {
         video.removeEventListener("loadedmetadata", handleMetadataLoaded);
         window.removeEventListener("resize", handleResize);
+        video.removeEventListener("click", togglePlayPaused);
+
       };
     }
   }, []);
@@ -72,7 +77,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen ">
       <div className="bg-red-900 h-full w-full ">
-        <div className="relative min-h-screen w-full max-w-xl mx-auto ">
+        <div className="relative min-h-screen w-full max-w-xl  mx-auto ">
           <video
             autoPlay
             loop
@@ -86,7 +91,7 @@ export default function Home() {
             <source src={"/inv.mp4"} />
           </video>
           <div className={cn("absolute top-4 right-4 z-10")}>
-            <VideoPlayerControls />
+            <VideoPlayerControls progress={videoProgress} isPaused={isPaused} onPlayPause={togglePlayPaused} />
           </div>
         </div>
       </div>
